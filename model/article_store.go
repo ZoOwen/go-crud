@@ -20,9 +20,16 @@ func removeArticle(id int) *ArticleStoreInmemory {
 	}
 }
 
-func (store *ArticleStoreInmemory) Update(article *Article) error {
+func (store *ArticleStoreInmemory) Update(idconv int, title string, body string) error {
 
-	store.ArticleMap = append(store.ArticleMap, *article)
+	var articles = store.ArticleMap
+	articles[idconv-1] = Article{ID: idconv, Title: title, Body: body}
+	return nil
+}
+
+func (store *ArticleStoreInmemory) Delete(idconv int) error {
+
+	store.ArticleMap = append(store.ArticleMap[:idconv-1], store.ArticleMap[idconv:]...)
 	return nil
 }
 func (store *ArticleStoreInmemory) Save(article *Article) error {
